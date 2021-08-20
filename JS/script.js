@@ -44,7 +44,6 @@ window.addEventListener('DOMContentLoaded', () => {
         const btnMenu = document.querySelector('.menu');
         const menu = document.querySelector('menu');
         const btnClose = document.querySelector('.close-btn');
-
         const menuItems = menu.querySelectorAll('ul>li');
 
         const handlerMenu = () => {
@@ -65,13 +64,14 @@ window.addEventListener('DOMContentLoaded', () => {
         const btnClose = document.querySelector('.popup-close');
         const popupContent = document.querySelector('.popup-content');
 
-        let left;
+        let left = 0;
         const animation = () => {
             popupContent.style.left = left + '%';
             left++;
             const move = requestAnimationFrame(animation);
             if (left > 38) {
                 cancelAnimationFrame(move);
+                left = 0;
             }
         };
 
@@ -79,7 +79,6 @@ window.addEventListener('DOMContentLoaded', () => {
             item.addEventListener('click', () => {
                 popup.style.display = 'block';
                 if (window.screen.width > 768) {
-                    left = 0;
                     animation();
                 }
             });
