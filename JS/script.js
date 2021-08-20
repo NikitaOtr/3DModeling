@@ -65,22 +65,21 @@ window.addEventListener('DOMContentLoaded', () => {
         const btnClose = document.querySelector('.popup-close');
         const popupContent = document.querySelector('.popup-content');
 
-        let count = 0;
+        let left;
         const animation = () => {
-            popupContent.style.left = count + '%';
-            count++;
+            popupContent.style.left = left + '%';
+            left++;
             const move = requestAnimationFrame(animation);
-            if (count > 38) {
+            if (left > 38) {
                 cancelAnimationFrame(move);
             }
-
-
         };
 
         btnsPopup.forEach(item => {
             item.addEventListener('click', () => {
                 popup.style.display = 'block';
                 if (window.screen.width > 768) {
+                    left = 0;
                     animation();
                 }
             });
