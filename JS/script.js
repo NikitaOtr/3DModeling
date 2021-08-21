@@ -58,6 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     toggleMenu();
 
+    //Всплывающее окно
     const togglePopup = () => {
         const popup = document.querySelector('.popup');
         const btnsPopup = document.querySelectorAll('.popup-btn');
@@ -90,4 +91,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
     };
     togglePopup();
+
+    //Плавная прокрутка для всем якорных ссылок
+    const smoothScrolling = () => {
+        // Найти все ссылки начинающиеся на #
+        const anchors = document.querySelectorAll('a[href^="#"]');
+
+        for (const anchor of anchors) {
+            anchor.addEventListener("click", event => {
+                event.preventDefault();
+
+                const goto = anchor.getAttribute('href');
+                document.querySelector(goto).scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            });
+        }
+    };
+    smoothScrolling();
 });
