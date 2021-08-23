@@ -1,3 +1,4 @@
+'use strict';
 window.addEventListener('DOMContentLoaded', () => {
 
     // Таймер
@@ -41,20 +42,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Меню
     const toggleMenu = () => {
-        const btnMenu = document.querySelector('.menu');
         const menu = document.querySelector('menu');
-        const btnClose = document.querySelector('.close-btn');
-        const menuItems = menu.querySelectorAll('ul>li');
 
         const handlerMenu = () => {
             menu.classList.toggle('active-menu');
         };
 
-        btnMenu.addEventListener('click', handlerMenu);
+        document.addEventListener('click', event => {
+            const target = event.target;
+            if (target === menu) { return; }
 
-        btnClose.addEventListener('click', handlerMenu);
-
-        menuItems.forEach(item => item.addEventListener('click', handlerMenu));
+            const btnMenu = target.closest('.menu');
+            if (btnMenu) {
+                handlerMenu();
+            } else if (menu.classList.contains('active-menu')) {
+                handlerMenu();
+            }
+        });
     };
     toggleMenu();
 
@@ -62,7 +66,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const togglePopup = () => {
         const popup = document.querySelector('.popup');
         const btnsPopup = document.querySelectorAll('.popup-btn');
-        const btnClose = document.querySelector('.popup-close');
         const popupContent = document.querySelector('.popup-content');
 
         let left = 0;
@@ -85,14 +88,22 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        btnClose.addEventListener('click', () => {
-            popup.style.display = 'none';
-        });
+        popup.addEventListener('click', event => {
+            let target = event.target;
 
+            if (target.classList.contains('popup-close')) {
+                popup.style.display = 'none';
+            } else {
+                target = target.closest('.popup-content');
+                if (!target) {
+                    popup.style.display = 'none';
+                }
+            }
+        });
     };
     togglePopup();
 
-    //Плавная прокрутка для всем якорных ссылок
+    //Плавная прокрутка для всех якорных ссылок
     const smoothScrolling = () => {
         // Найти все ссылки начинающиеся на #
         const anchors = document.querySelectorAll('a[href^="#"]');
@@ -102,6 +113,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault();
 
                 const goto = anchor.getAttribute('href');
+                if (goto === '#close') { return; }
                 document.querySelector(goto).scrollIntoView({
                     behavior: "smooth",
                     block: "start"
@@ -110,4 +122,39 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     };
     smoothScrolling();
+
+    // Табы
+    const tabs = () => {
+        const tabHeader = document.querySelector('.service-header');
+        const tab = tabHeader.querySelectorAll('.service-header-tab');
+        const tabContend = document.querySelectorAll('.service-tab');
+
+        const toggleTabContent = index => {
+            for (let i = 0; i < tab.length; i++) {
+                if (index === i) {
+                    tab[i].classList.add('active');
+                    tabContend[i].classList.remove('d-none');
+                } else {
+                    tab[i].classList.remove('active');
+                    tabContend[i].classList.add('d-none');
+                }
+            }
+        };
+
+        tabHeader.addEventListener('click', event => {
+            let target = event.target;
+            target = target.closest('.service-header-tab');
+
+            if (target) {
+                tab.forEach((item, index) => {
+                    if (item === target) {
+                        toggleTabContent(index);
+                    }
+                });
+            }
+        });
+
+    };
+    tabs();
+
 });
