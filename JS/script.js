@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const timeReamining = (dateStop - dateNow) / 1000;
 
             const seconds = Math.floor(timeReamining) % 60;
-            const minutes = Math.floor((timeReamining / 60) % 60);
+            const minutes = Math.floor(timeReamining / 60 % 60);
             const hours = Math.floor(timeReamining / 3600 % 24);
             const days = Math.floor(timeReamining / 3600 / 24);
             return { days, hours, minutes, seconds };
@@ -28,7 +28,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         const appdateClock = () => {
             const timer = getTimeRemaining();
-
             timerDays.textContent = getСorrectTime(timer.days);
             timerHours.textContent = getСorrectTime(timer.hours);
             timerMinutes.textContent = getСorrectTime(timer.minutes);
@@ -43,7 +42,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // Меню
     const toggleMenu = () => {
         const menu = document.querySelector('menu');
-
         const handlerMenu = () => {
             menu.classList.toggle('active-menu');
         };
@@ -52,20 +50,18 @@ window.addEventListener('DOMContentLoaded', () => {
             const target = event.target;
             if (target === menu) { return; }
 
-            const btnMenu = target.closest('.menu');
-            if (btnMenu) {
-                handlerMenu();
-            } else if (menu.classList.contains('active-menu')) {
+            const btnGetMenu = target.closest('.menu');
+            if (btnGetMenu || menu.classList.contains('active-menu')) {
                 handlerMenu();
             }
         });
     };
     toggleMenu();
 
-    //Всплывающее окно ToDo
+    //Всплывающее окно //ToDo forEach ToDo
     const togglePopup = () => {
         const popup = document.querySelector('.popup');
-        const btnsPopup = document.querySelectorAll('.popup-btn');
+        const btnsGetPopup = document.querySelectorAll('.popup-btn');
         const popupContent = document.querySelector('.popup-content');
 
         let left = 0;
@@ -79,7 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        btnsPopup.forEach(item => {
+        btnsGetPopup.forEach(item => {
             item.addEventListener('click', () => {
                 popup.style.display = 'block';
                 if (window.screen.width > 768) {
@@ -88,24 +84,23 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        //ToDo
         popup.addEventListener('click', event => {
             let target = event.target;
-
-            if (target.classList.contains('popup-close')) {
+            if (target.addEventListener.contains('popup-close')) {
                 popup.style.display = 'none';
-            } else {
-                target = target.closest('.popup-content');
-                if (!target) {
-                    popup.style.display = 'none';
-                }
             }
+            target = target.closest('.popup-content');
+            if (target) {
+                return;
+            }
+            popup.style.display = 'none';
         });
     };
     togglePopup();
 
-    //Плавная прокрутка для всех якорных ссылок
+    //Плавная прокрутка для всех якорных ссылок ToDo
     const smoothScrolling = () => {
-        // Найти все ссылки начинающиеся на #
         let anchors = document.querySelectorAll('menu a');
         anchors = Array.from(anchors);
         anchors.push(document.querySelector('main>a'));
@@ -125,38 +120,30 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     smoothScrolling();
 
-
-    // Табы ToDO
+    // Табы
     const tabs = () => {
         const tabHeader = document.querySelector('.service-header');
-        const tab = tabHeader.querySelectorAll('.service-header-tab');
+        const tabButton = tabHeader.querySelectorAll('.service-header-tab');
         const tabContend = document.querySelectorAll('.service-tab');
 
-        const toggleTabContent = index => {
-            for (let i = 0; i < tab.length; i++) {
-                if (index === i) {
-                    tab[i].classList.add('active');
+        const toggleTabContent = elem => {
+            for (let i = 0; i < tabButton.length; i++) {
+                if (tabButton[i] === elem) {
+                    tabButton[i].classList.add('active');
                     tabContend[i].classList.remove('d-none');
                 } else {
-                    tab[i].classList.remove('active');
+                    tabButton[i].classList.remove('active');
                     tabContend[i].classList.add('d-none');
                 }
             }
         };
 
         tabHeader.addEventListener('click', event => {
-            let target = event.target;
-            target = target.closest('.service-header-tab');
-
+            const target = event.target.closest('.service-header-tab');
             if (target) {
-                tab.forEach((item, index) => {
-                    if (item === target) {
-                        toggleTabContent(index);
-                    }
-                });
+                toggleTabContent(target);
             }
         });
-
     };
     tabs();
 
@@ -190,17 +177,17 @@ window.addEventListener('DOMContentLoaded', () => {
         slider.addEventListener('click', event => {
             event.preventDefault();
             const target = event.target;
-            if (target.matches('#arrow-right')) {
+            if (target.matches('.dot')) {
+                removePrevSlide(currentSlide);
+                dots.forEach((item, index) => ((target === item) ? currentSlide = index : 1));
+                setNextSlide(currentSlide);
+            } else if (target.matches('#arrow-right')) {
                 removePrevSlide(currentSlide);
                 currentSlide = (currentSlide + 1) % slides.length;
                 setNextSlide(currentSlide);
             } else if (target.matches('#arrow-left')) {
                 removePrevSlide(currentSlide);
                 currentSlide = (currentSlide + (slides.length - 1)) % slides.length;
-                setNextSlide(currentSlide);
-            } else if (target.matches('.dot')) {
-                removePrevSlide(currentSlide);
-                dots.forEach((item, index) => ((target === item) ? currentSlide = index : 1));
                 setNextSlide(currentSlide);
             }
         });
@@ -219,13 +206,11 @@ window.addEventListener('DOMContentLoaded', () => {
         };
         startSlide();
 
-        //Todo
         slider.addEventListener('mouseover', event => {
             if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
                 stopSlide();
             }
         });
-        //Todo
         slider.addEventListener('mouseout', event => {
             if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
                 startSlide();
@@ -233,5 +218,67 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     };
     slider();
+
+    // Блок с командой
+    const team = () => {
+        const command = document.getElementById('command');
+        const imgs = command.querySelectorAll('.row img');
+
+        const changeImgFromDataset = elem => {
+            imgs.forEach(item => {
+                if (elem === item) {
+                    [item.src, item.dataset.img] = [item.dataset.img, item.src];
+                }
+            });
+        };
+
+        command.addEventListener('mouseover', event => {
+            changeImgFromDataset(event.target);
+        });
+
+        command.addEventListener('mouseout', event => {
+            changeImgFromDataset(event.target);
+        });
+    };
+    team();
+
+    // Валидация форм ToDo blur
+    const validationForms = () => {
+        const calculatorForms = document.querySelector('.calc-block');
+        calculatorForms.addEventListener('input', event => {
+            const target = event.target;
+            target.value = target.value.replace(/\D/, '');
+        });
+
+        const connectForm = document.getElementById('form2');
+        connectForm.addEventListener('input', event => {
+            const target = event.target;
+            if (target.id === 'form2-name' || target.id === 'form2-message') {
+                target.value = target.value.replace(/[^а-яА-ЯёЁ\s-]/, '');
+            } else if (target.id === 'form2-email') {
+                target.value = target.value.replace(/[^\w!-_.~*@']/, '');
+            } else if (target.id === 'form2-phone') {
+                target.value = target.value.replace(/[^\d()-]/, '');
+            }
+        });
+
+        const connectFormInputs = connectForm.querySelectorAll('input');
+        connectFormInputs.forEach(item => {
+            item.addEventListener('blur', () => {
+                item.value = item.value.replace(/\s{2,}/g, ' ');
+                item.value = item.value.replace(/-{2,}/g, '-');
+                item.value = item.value.replace(/^[\s-]/, '');
+                item.value = item.value.replace(/[\s-]$/, '');
+            });
+        });
+
+        const NameInput = connectFormInputs[0];
+        NameInput.addEventListener('blur', () => {
+            if (NameInput.value === '') { return; }
+            NameInput.value = NameInput.value[0].toUpperCase() +
+            NameInput.value.slice(1).toLowerCase();
+        });
+    };
+    validationForms();
 
 });
