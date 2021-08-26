@@ -64,30 +64,32 @@ window.addEventListener('DOMContentLoaded', () => {
         const btnsGetPopup = document.querySelectorAll('.popup-btn');
         const popupContent = document.querySelector('.popup-content');
 
-        let left = 0;
-        const animation = () => {
-            popupContent.style.left = left + '%';
-            left++;
-            const move = requestAnimationFrame(animation);
-            if (left > 38) {
-                cancelAnimationFrame(move);
-                left = 0;
-            }
+        const animationPopup = () => {
+            let left = 0;
+            const animation = () => {
+                popupContent.style.left = left + '%';
+                left++;
+                if (left < 38) {
+                    requestAnimationFrame(animation);
+                }
+            };
+            return animation();
         };
 
         btnsGetPopup.forEach(item => {
             item.addEventListener('click', () => {
                 popup.style.display = 'block';
                 if (window.screen.width > 768) {
-                    animation();
+                    animationPopup();
                 }
             });
         });
 
-        //ToDo
+        //ToDo !!!!
         popup.addEventListener('click', event => {
             let target = event.target;
-            if (target.addEventListener.contains('popup-close')) {
+            console.log(target);
+            if (target.matches('.popup-close')) {
                 popup.style.display = 'none';
             }
             target = target.closest('.popup-content');
@@ -272,13 +274,63 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        const NameInput = connectFormInputs[0];
-        NameInput.addEventListener('blur', () => {
-            if (NameInput.value === '') { return; }
-            NameInput.value = NameInput.value[0].toUpperCase() +
-            NameInput.value.slice(1).toLowerCase();
+        const nameInput = connectFormInputs[0];
+        nameInput.addEventListener('blur', () => {
+            if (nameInput.value === '') { return; }
+            nameInput.value = nameInput.value[0].toUpperCase() +
+            nameInput.value.slice(1).toLowerCase();
         });
     };
     validationForms();
 
+    // Калькулятор
+    const calc = (prise = 100) => {
+        const calcBlock = document.querySelector('.calc-block');
+        const calcType = document.querySelector('.calc-type');
+        const calcSquare = document.querySelector('.calc-square');
+        const calcCount = document.querySelector('.calc-count');
+        const calcDay = document.querySelector('.calc-day');
+        const totalValue = document.getElementById('total');
+
+        const animationTotal = total => {
+            const step = Math.floor(total / 31);
+            let nowPosition = total % 31;
+            const animation = () => {
+                nowPosition += step;
+                totalValue.textContent = nowPosition;
+                if (nowPosition < total) {
+                    requestAnimationFrame(animation);
+                }
+            };
+            return animation();
+        };
+
+        const countTotal = () => {
+            const typeValue = +calcType.value / 10;
+            const squareValue = +calcSquare.value;
+            let countValue = 1;
+            let dayValue = 1;
+
+            if (calcCount.value > 1) {
+                countValue += (+calcCount.value - 1) / 10;
+            }
+
+            if (calcDay.value && calcDay.value < 5) {
+                dayValue = 2;
+            } else if (calcDay.value && calcDay.value < 10) {
+                dayValue = 1.5;
+            }
+
+            const total = prise * typeValue * squareValue * countValue * dayValue;
+            animationTotal(Math.round(total));
+        };
+
+        calcBlock.addEventListener('input', event => {
+            const target = event.target;
+            if (target.matches('select') || target.matches('input')) {
+                countTotal();
+            }
+        });
+    };
+    calc();
 });
