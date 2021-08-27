@@ -58,7 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     toggleMenu();
 
-    //Всплывающее окно //ToDo forEach ToDo
+    //Всплывающее окно ToDo forEach
     const togglePopup = () => {
         const popup = document.querySelector('.popup');
         const btnsGetPopup = document.querySelectorAll('.popup-btn');
@@ -85,15 +85,12 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        //ToDo !!!!
         popup.addEventListener('click', event => {
-            let target = event.target;
-            console.log(target);
+            const target = event.target;
             if (target.matches('.popup-close')) {
-                popup.style.display = 'none';
+                return popup.style.display = 'none';
             }
-            target = target.closest('.popup-content');
-            if (target) {
+            if (target.closest('.popup-content')) {
                 return;
             }
             popup.style.display = 'none';
@@ -320,7 +317,6 @@ window.addEventListener('DOMContentLoaded', () => {
             } else if (calcDay.value && calcDay.value < 10) {
                 dayValue = 1.5;
             }
-
             const total = prise * typeValue * squareValue * countValue * dayValue;
             animationTotal(Math.round(total));
         };
