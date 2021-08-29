@@ -58,10 +58,10 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     toggleMenu();
 
-    //Всплывающее окно ToDo forEach
+    //Всплывающее окно
     const togglePopup = () => {
         const popup = document.querySelector('.popup');
-        const btnsGetPopup = document.querySelectorAll('.popup-btn');
+        const buttonsGetPopup = document.querySelectorAll('.popup-btn');
         const popupContent = document.querySelector('.popup-content');
 
         const animationPopup = () => {
@@ -76,7 +76,7 @@ window.addEventListener('DOMContentLoaded', () => {
             return animation();
         };
 
-        btnsGetPopup.forEach(item => {
+        buttonsGetPopup.forEach(item => {
             item.addEventListener('click', () => {
                 popup.style.display = 'block';
                 if (window.screen.width > 768) {
@@ -221,10 +221,10 @@ window.addEventListener('DOMContentLoaded', () => {
     // Блок с командой
     const team = () => {
         const command = document.getElementById('command');
-        const imgs = command.querySelectorAll('.row img');
+        const images = command.querySelectorAll('.row img');
 
         const changeImgFromDataset = elem => {
-            imgs.forEach(item => {
+            images.forEach(item => {
                 if (elem === item) {
                     [item.src, item.dataset.img] = [item.dataset.img, item.src];
                 }
@@ -241,7 +241,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     team();
 
-    // Валидация форм ToDo blur
+    // Валидация форм
     const validationForms = () => {
         const calculatorForms = document.querySelector('.calc-block');
         calculatorForms.addEventListener('input', event => {
