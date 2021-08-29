@@ -11,31 +11,31 @@ window.addEventListener('DOMContentLoaded', () => {
         const getTimeRemaining = () => {
             const dateStop = new Date(deadLine).getTime();
             const dateNow = new Date().getTime();
-            const timeReamining = (dateStop - dateNow) / 1000;
+            const timeRemaining = (dateStop - dateNow) / 1000;
 
-            const seconds = Math.floor(timeReamining) % 60;
-            const minutes = Math.floor(timeReamining / 60 % 60);
-            const hours = Math.floor(timeReamining / 3600 % 24);
-            const days = Math.floor(timeReamining / 3600 / 24);
+            const seconds = Math.floor(timeRemaining) % 60;
+            const minutes = Math.floor(timeRemaining / 60 % 60);
+            const hours = Math.floor(timeRemaining / 3600 % 24);
+            const days = Math.floor(timeRemaining / 3600 / 24);
             return { days, hours, minutes, seconds };
         };
 
-        const getСorrectTime = num => {
+        const correctTime = num => {
             if (num < 0) { return '00'; }
             if (num < 10) { return '0' + num; }
             return num;
         };
 
-        const appdateClock = () => {
+        const appDateClock = () => {
             const timer = getTimeRemaining();
-            timerDays.textContent = getСorrectTime(timer.days);
-            timerHours.textContent = getСorrectTime(timer.hours);
-            timerMinutes.textContent = getСorrectTime(timer.minutes);
-            timerSeconds.textContent = getСorrectTime(timer.seconds);
+            timerDays.textContent = correctTime(timer.days);
+            timerHours.textContent = correctTime(timer.hours);
+            timerMinutes.textContent = correctTime(timer.minutes);
+            timerSeconds.textContent = correctTime(timer.seconds);
         };
 
-        appdateClock();
-        setInterval(appdateClock, 1000);
+        appDateClock();
+        setInterval(appDateClock, 1000);
     };
     countTimer('1 sep 2021');
 
