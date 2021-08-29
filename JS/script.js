@@ -241,6 +241,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     team();
 
+
     // Валидация форм
     const validationForms = () => {
         const calculatorForms = document.querySelector('.calc-block');
