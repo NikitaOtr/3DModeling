@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     smoothScrolling();
 
-    // Табы ToDo for
+    // Табы ToDo
     const tabs = () => {
         const tabHeader = document.querySelector('.service-header');
         const tabButtons = tabHeader.querySelectorAll('.service-header-tab');
@@ -337,22 +337,22 @@ window.addEventListener('DOMContentLoaded', () => {
         const loadMessage = '<div class="sk-rotating-plane"></div>';
         const successMessage = 'Спасибо! Мы скоро вам перезвоним.';
 
-        const postData = (data, showSuccessMessage, showErrorMessage) => {
+        // eslint-disable-next-line arrow-body-style
+        const postData = data => new Promise((resolve, reject) => {
             const request = new XMLHttpRequest();
             request.addEventListener('readystatechange', () => {
                 if (request.readyState === 4) {
                     if (request.status === 200) {
-                        showSuccessMessage();
+                        resolve();
                     } else {
-                        showErrorMessage();
-                        console.log(request.statusText);
+                        reject(request.statusText);
                     }
                 }
             });
             request.open('POST', './server.php');
             request.setRequestHeader('Content-Type', 'application/json');
             request.send(JSON.stringify(data));
-        };
+        });
 
         const submitForm = form => {
             const statusMessage = document.createElement('div');
@@ -366,15 +366,17 @@ window.addEventListener('DOMContentLoaded', () => {
                 const formData = new FormData(form);
                 const data = {};
                 formData.forEach((value, key) => data[key] = value);
-                postData(data,
-                    () => {
+                postData(data)
+                    .then(() => {
                         statusMessage.textContent = successMessage;
                         form.reset();
-                    },
-                    () => statusMessage.textContent = errorMessage,
-                );
-            });
+                    })
+                    .catch(error => {
+                        statusMessage.textContent = errorMessage;
+                        console.error(error);
+                    });
 
+            });
         };
 
         const form1 = document.getElementById('form1');
