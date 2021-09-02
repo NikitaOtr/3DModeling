@@ -337,21 +337,12 @@ window.addEventListener('DOMContentLoaded', () => {
         const loadMessage = '<div class="sk-rotating-plane"></div>';
         const successMessage = 'Спасибо! Мы скоро вам перезвоним.';
 
-        // eslint-disable-next-line arrow-body-style
-        const postData = data => new Promise((resolve, reject) => {
-            const request = new XMLHttpRequest();
-            request.addEventListener('readystatechange', () => {
-                if (request.readyState === 4) {
-                    if (request.status === 200) {
-                        resolve();
-                    } else {
-                        reject(request.statusText);
-                    }
-                }
-            });
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application/json');
-            request.send(JSON.stringify(data));
+        const postData = data => fetch('./server.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
         });
 
         const submitForm = form => {
@@ -366,8 +357,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 const formData = new FormData(form);
                 const data = {};
                 formData.forEach((value, key) => data[key] = value);
+
                 postData(data)
-                    .then(() => {
+                    .then(response => {
+                        if (response.status !== 200) {
+                            throw new Error(response.statusText);
+                        }
                         statusMessage.textContent = successMessage;
                         form.reset();
                     })
@@ -375,7 +370,6 @@ window.addEventListener('DOMContentLoaded', () => {
                         statusMessage.textContent = errorMessage;
                         console.error(error);
                     });
-
             });
         };
 
