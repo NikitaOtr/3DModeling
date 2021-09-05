@@ -46,6 +46,11 @@ const calc = (prise = 100) => {
 
     calcBlock.addEventListener('input', event => {
         const target = event.target;
+        if (target.matches('select') && !target.value) {
+            calcSquare.value = '';
+            calcCountRooms.value = '';
+            calcDays.value = '';
+        }
         if (target.matches('select') || target.matches('input')) {
             countTotal();
         }

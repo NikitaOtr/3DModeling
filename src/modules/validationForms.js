@@ -1,31 +1,35 @@
-const validationForms = () => {
-    const calculatorForms = document.querySelector('.calc-block');
-    calculatorForms.addEventListener('input', event => {
-        const target = event.target;
-        target.value = target.value.replace(/\D/, '');
-    });
-
-    const validationForm = form => {
-        form.addEventListener('input', event => {
-            const target = event.target;
-            if (target.name === 'user_name') {
-                target.value = target.value.replace(/[^а-яА-ЯёЁ\s]/, '');
-            } else if (target.name === 'user_email') {
-                target.value = target.value.replace(/[^-\w!_.~*@]/, '');
-            } else if (target.name === 'user_phone') {
-                target.value = target.value.replace(/[^\d+]/, '');
-            } else if (target.name === 'user_message') {
-                target.value = target.value.replace(/[^а-яА-ЯёЁ\s.!-?1-9]/, '');
-            }
-        });
+const validationForms = inputs => {
+    const setSuccessInput = input => {
+        input.classList.remove('error-input');
+        input.classList.add('success-input');
     };
 
-    const form1 = document.getElementById('form1');
-    const form2 = document.getElementById('form2');
-    const form3 = document.getElementById('form3');
-    validationForm(form1);
-    validationForm(form2);
-    validationForm(form3);
+    const setErrorInput = input => {
+        input.classList.remove('success-input');
+        input.classList.add('error-input');
+    };
+
+    const Arrayinputs = Array.from(inputs);
+    const userName = Arrayinputs.find(item => item.matches('.form-name'));
+    const userEmail = Arrayinputs.find(item => item.matches('.form-email'));
+    const userPhone = Arrayinputs.find(item => item.matches('.form-phone'));
+
+    inputs.forEach(item => setSuccessInput(item));
+    let rez = true;
+
+    if (!(userName.value.length >= 2)) {
+        setErrorInput(userName);
+        rez = false;
+    }
+    if (!(userEmail.value.match(/[-\d\w\W]+@[\w\d]+\.\w{2,4}/))) {
+        setErrorInput(userEmail);
+        rez = false;
+    }
+    if (!(userPhone.value.match(/[\d]{11}/) && userPhone.value.length <= 12)) {
+        setErrorInput(userPhone);
+        rez = false;
+    }
+    return rez;
 };
 
 export default validationForms;

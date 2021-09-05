@@ -6,8 +6,8 @@ import smoothScrolling from './modules/smoothScrolling';
 import tabs from './modules/tabs';
 import slider from './modules/slider';
 import team from './modules/team';
-import validationForms from './modules/validationForms';
-import calc from './modules/calculator';
+import banPrint from './modules/banPrint';
+import calculator from './modules/calculator';
 import sendForm from './modules/sendFrom';
 
 // Таймер
@@ -32,10 +32,10 @@ slider();
 team();
 
 // Валидация форм ToDo blur
-validationForms();
+banPrint();
 
 // Калькулятор
-calc();
+calculator();
 
 //Send ajax forms
 sendForm();

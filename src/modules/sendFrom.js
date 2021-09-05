@@ -1,3 +1,6 @@
+import validationForms from './validationForms';
+const popup = document.querySelector('.popup');
+
 const sendForm = () => {
     const errorMessage = 'Что-то пошло не так.';
     const warningMessage = 'Введите корректные данные';
@@ -12,41 +15,6 @@ const sendForm = () => {
         body: JSON.stringify(data),
     });
 
-    //ToDo
-    const checkCorrectForm = inputs => {
-        const setSuccessInput = input => {
-            input.classList.remove('error-input');
-            input.classList.add('success-input');
-        };
-
-        const setErrorInput = input => {
-            input.classList.remove('success-input');
-            input.classList.add('error-input');
-        };
-
-        const Arrayinputs = Array.from(inputs);
-        const userName = Arrayinputs.find(item => item.matches('.form-name'));
-        const userEmail = Arrayinputs.find(item => item.matches('.form-email'));
-        const userPhone = Arrayinputs.find(item => item.matches('.form-phone'));
-
-        inputs.forEach(item => setSuccessInput(item));
-        let rez = true;
-
-        if (!(userName.value.length >= 2)) {
-            setErrorInput(userName);
-            rez = false;
-        }
-        if (!(userEmail.value.match(/[-\d\w\W]+@[\w\d]+\.\w{2,4}/))) {
-            setErrorInput(userEmail);
-            rez = false;
-        }
-        if (!(userPhone.value.match(/[\d]{11}/) && userPhone.value.length <= 12)) {
-            setErrorInput(userPhone);
-            rez = false;
-        }
-        return rez;
-    };
-
     const submitForm = form => {
         const statusMessage = document.createElement('div');
         statusMessage.style.cssText = 'font-size: 2rem; color: white;';
@@ -54,15 +22,20 @@ const sendForm = () => {
 
         const inputs = form.querySelectorAll('input');
 
-        const resetForm = () => {
+        const reset = () => {
             form.reset();
             inputs.forEach(item => item.classList.remove('success-input'));
+
+            setTimeout(() => {
+                statusMessage.innerHTML = '';
+                popup.style.display = 'none';
+            }, 5000);
         };
 
         form.addEventListener('submit', event => {
             event.preventDefault();
 
-            if (!checkCorrectForm(inputs)) {
+            if (!validationForms(inputs)) {
                 statusMessage.textContent = warningMessage;
                 return;
             }
@@ -78,7 +51,7 @@ const sendForm = () => {
                     if (response.status !== 200) {
                         throw new Error(response.statusText);
                     }
-                    resetForm();
+                    reset();
                     statusMessage.textContent = successMessage;
                 })
                 .catch(error => {
