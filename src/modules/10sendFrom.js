@@ -1,4 +1,4 @@
-import validationForms from './validationForms';
+import validationForms from './101validationForms';
 const popup = document.querySelector('.popup');
 
 const sendForm = () => {

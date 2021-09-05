@@ -1,11 +1,11 @@
-const banPrint = () => {
+const banPrintForms = () => {
     const calculatorForms = document.querySelector('.calc-block');
     calculatorForms.addEventListener('input', event => {
         const target = event.target;
         target.value = target.value.replace(/\D/, '');
     });
 
-    const validationForm = form => {
+    const banPrintForm = form => {
         form.addEventListener('input', event => {
             const target = event.target;
             if (target.name === 'user_name') {
@@ -19,13 +19,12 @@ const banPrint = () => {
             }
         });
     };
-
     const form1 = document.getElementById('form1');
     const form2 = document.getElementById('form2');
     const form3 = document.getElementById('form3');
-    validationForm(form1);
-    validationForm(form2);
-    validationForm(form3);
+    banPrintForm(form1);
+    banPrintForm(form2);
+    banPrintForm(form3);
 };
 
-export default banPrint;
+export default banPrintForms;

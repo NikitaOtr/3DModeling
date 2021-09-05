@@ -1,3 +1,4 @@
+//ToDo
 const calc = (prise = 100) => {
     const calcBlock = document.querySelector('.calc-block');
     const calcType = document.querySelector('.calc-type');
@@ -14,6 +15,8 @@ const calc = (prise = 100) => {
         const step = way > 0 ? Math.floor(way / countStep) : Math.ceil(way / countStep);
 
         let nowPosition = nowTotal + (way % countStep);
+        totalValue.textContent = nowPosition;
+
         const animation = () => {
             nowPosition += step;
             totalValue.textContent = nowPosition;

@@ -9,7 +9,7 @@ const togglePopup = () => {
         const animation = () => {
             left += 2;
             popupContent.style.left = left + '%';
-            if (left < 38) {
+            if (left !== 38) {
                 requestAnimationFrame(animation);
             }
         };

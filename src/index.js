@@ -1,41 +1,31 @@
 'use strict';
-import countTimer from './modules/countTimer';
-import toggleMenu from './modules/toggleMenu';
-import togglePopup from './modules/togglePopup';
-import smoothScrolling from './modules/smoothScrolling';
-import tabs from './modules/tabs';
-import slider from './modules/slider';
-import team from './modules/team';
-import banPrint from './modules/banPrint';
-import calculator from './modules/calculator';
-import sendForm from './modules/sendFrom';
 
-// Таймер
-countTimer('30 sept 2021');
-
-// Меню ToDo document
+import toggleMenu from './modules/01toggleMenu';
 toggleMenu();
 
-// Всплывающее окно ToDo forEach buttonsGetPopup
-togglePopup();
+import countTimer from './modules/02countTimer';
+countTimer('30 sept 2021');
 
-//Плавная прокрутка для всех якорных ссылок
-smoothScrolling();
-
-// Табы ToDo
+import tabs from './modules/03tabs';
 tabs();
 
-// Слайдер
+import togglePopup from './modules/04togglePopup';
+togglePopup();
+
+import slider from './modules/05slider';
 slider();
 
-// Блок с командой
-team();
-
-// Валидация форм ToDo blur
-banPrint();
-
-// Калькулятор
+import calculator from './modules/06calculator';
 calculator();
 
-//Send ajax forms
+import team from './modules/07team';
+team();
+
+import smoothScrolling from './modules/08smoothScrolling';
+smoothScrolling();
+
+import banPrintForms from './modules/09banPrintForms';
+banPrintForms();
+
+import sendForm from './modules/10sendFrom';
 sendForm();

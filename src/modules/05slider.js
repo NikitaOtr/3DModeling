@@ -47,6 +47,7 @@ const slider = () => {
         currentSlide = (currentSlide + 1) % slides.length;
         setNextSlide(currentSlide);
     };
+
     let interval;
     const startSlide = (time = 5000) => {
         interval = setInterval(autoPlaySlide, time);
