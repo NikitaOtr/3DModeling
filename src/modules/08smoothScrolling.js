@@ -1,4 +1,3 @@
-//ToDO
 const smoothScrolling = () => {
     let anchors = document.querySelectorAll('menu li>a');
     anchors = Array.from(anchors);
